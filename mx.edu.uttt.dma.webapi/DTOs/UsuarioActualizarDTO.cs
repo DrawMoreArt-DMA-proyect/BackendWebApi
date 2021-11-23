@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace mx.edu.uttt.dma.webapi.Entidades
+namespace mx.edu.uttt.dma.webapi.DTOs
 {
-    public class Usuario
+    public class UsuarioActualizarDTO
     {
-        [Key]
-        public int IdUsuario { get; set; }
         [Required]
         [StringLength(20)]
         public string UsuarioNombre { get; set; }
@@ -15,8 +13,7 @@ namespace mx.edu.uttt.dma.webapi.Entidades
         public string CorreoElectronico { get; set; }
         [StringLength(100)]
         public string token { get; set; }
-        [StringLength(100)]
-        public string Contrasena { get; set; }
+        [StringLength(15)]
         public string NombrePersona { get; set; }
         [StringLength(15)]
         public string ApellidoPaterno { get; set; }
