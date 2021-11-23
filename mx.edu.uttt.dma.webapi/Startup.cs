@@ -28,6 +28,12 @@ namespace mx.edu.uttt.dma.webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Activar CORS
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
+                 .AllowAnyHeader());
+            });
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(
@@ -39,6 +45,7 @@ namespace mx.edu.uttt.dma.webapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
