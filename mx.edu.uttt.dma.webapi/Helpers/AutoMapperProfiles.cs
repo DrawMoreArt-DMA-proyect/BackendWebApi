@@ -12,6 +12,7 @@ namespace mx.edu.uttt.dma.webapi.Helpers
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
             CreateMap<UsuarioCreacionDTO, Usuario>();
             CreateMap<UsuarioActualizarDTO, Usuario>();
+            CreateMap<UsuarioLoginDTO, Usuario>();
         }
     }
 }

@@ -8,13 +8,12 @@ namespace mx.edu.uttt.dma.webapi.DTOs
         [Required]
         [StringLength(20)]
         public string UsuarioNombre { get; set; }
-        [Required]
         [StringLength(50)]
         public string CorreoElectronico { get; set; }
-        [StringLength(100)]
-        public string token { get; set; }
         [StringLength(15)]
         public string NombrePersona { get; set; }
+        [StringLength(100)]
+        public string Contrasena { get; set; }
         [StringLength(15)]
         public string ApellidoPaterno { get; set; }
         [StringLength(15)]

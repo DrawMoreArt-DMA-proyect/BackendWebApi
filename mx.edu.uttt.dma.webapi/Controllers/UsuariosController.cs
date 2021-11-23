@@ -63,6 +63,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
         }
         // Agregar nuevo usuario (Registro)
         [HttpPost]
+        [Route("registro")]
         public async Task<ActionResult> PostUser(UsuarioCreacionDTO model)
         {
             var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
@@ -84,8 +85,10 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             {
                 return NotFound();
             }
-
+            var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
             var entidad = _mapper.Map<Usuario>(model);
+            entidad.Contrasena = encriptacion;
+            entidad.token = "Token Secreto";
             entidad.IdUsuario = id;
             _context.Entry(entidad).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -104,6 +107,21 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("Usuario Eliminado");
+        }
+        // Agregar nuevo usuario (Registro)
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult> UserLogin(UsuarioLoginDTO model)
+        {
+            var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
+            var existe = await _context.Usuarios.AnyAsync(x => x.UsuarioNombre == model.UsuarioNombre
+                                                                     && x.Contrasena == encriptacion);
+            if (!existe)
+            {
+                return Ok("El usuario no existe");
+            }
+
+            return Ok("Acceso Correcto");
         }
     }
 }
