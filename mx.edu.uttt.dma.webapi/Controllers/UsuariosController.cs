@@ -92,7 +92,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
             var entidad = _mapper.Map<Usuario>(model);
             entidad.Contrasena = encriptacion;
-            entidad.token = "Token Secreto";
+            //entidad.token = "Token Secreto";
             entidad.IdUsuario = id;
             _context.Entry(entidad).State = EntityState.Modified;
             await _context.SaveChangesAsync();

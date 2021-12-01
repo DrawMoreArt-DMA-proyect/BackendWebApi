@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace mx.edu.uttt.dma.webapi.Entidades
 {
     public class RedesSociales
     {
+        [Key]
         public int IdRedSocial { get; set; }
         public string Link { get; set; }
         //Relacion de tabla
