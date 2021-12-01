@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mx.edu.uttt.dma.webapi.DTOs;
@@ -13,6 +14,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
     [ApiController]
     //Ruta de acceso o url de acceso
     [Route("webapi/usuarios")]
+    [Authorize]
     public class UsuariosController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -32,7 +34,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
         {
             var entidades = await _context.Usuarios.ToListAsync();
             var dtos = _mapper.Map<List<UsuarioDTO>>(entidades);
-            Console.WriteLine(dtos);
+            //Console.WriteLine(dtos);
             return dtos;
         }
         // Usuario por nombre
@@ -40,12 +42,12 @@ namespace mx.edu.uttt.dma.webapi.Controllers
         public async Task<ActionResult<UsuarioDTO>> GetUser(string usuario)
         {
             var entidad = await _context.Usuarios.FirstOrDefaultAsync(x => x.UsuarioNombre == usuario);
-
+            
             if (entidad == null)
             {
                 return NotFound();
             }
-
+            
             return _mapper.Map<UsuarioDTO>(entidad);
         }
         // Usuario por Id
@@ -62,6 +64,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             return _mapper.Map<UsuarioDTO>(entidad);
         }
         // Agregar nuevo usuario (Registro)
+        /*
         [HttpPost]
         [Route("registro")]
         public async Task<ActionResult> PostUser(UsuarioCreacionDTO model)
@@ -75,6 +78,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             var usuarioDTO = _mapper.Map<UsuarioDTO>(entidad);
             return new CreatedAtRouteResult("obtenerUsuario", new { id = usuarioDTO.IdUsuario}, usuarioDTO);
         }
+        */
         //Actualizar Usuario
         [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateUser(int id, UsuarioActualizarDTO model)
@@ -109,19 +113,20 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             return Ok("Usuario Eliminado");
         }
         // Agregar nuevo usuario (Registro)
+        /*
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult> UserLogin(UsuarioLoginDTO model)
         {
             var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
-            var existe = await _context.Usuarios.AnyAsync(x => x.UsuarioNombre == model.UsuarioNombre
+            var existe = await _context.Usuarios.FirstOrDefaultAsync(x => x.UsuarioNombre == model.UsuarioNombre
                                                                      && x.Contrasena == encriptacion);
-            if (!existe)
+            if (existe != null)
             {
-                return Ok("El usuario no existe");
+                return Ok("Acceso Correcto");
             }
-
-            return Ok("Acceso Correcto");
+            return Ok("El usuario no existe");
         }
+        */
     }
 }
