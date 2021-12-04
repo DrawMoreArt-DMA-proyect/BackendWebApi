@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace mx.edu.uttt.dma.webapi.Entidades
 {
-    public class ElementosGuardados
+    public class ElementoGuardado
     {
         [Key]
         public int IdElementoGuardado { get; set; }
@@ -12,6 +12,6 @@ namespace mx.edu.uttt.dma.webapi.Entidades
         public Usuario Usuario { get; set; }
         //Relacion de Tabla
         public int IdPost { get; set; }
-        public Posts Posts { get; set; }
+        public Post Posts { get; set; }
     }
 }

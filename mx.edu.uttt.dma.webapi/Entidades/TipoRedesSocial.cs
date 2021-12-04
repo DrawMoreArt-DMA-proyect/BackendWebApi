@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace mx.edu.uttt.dma.webapi.Entidades
 {
-    public class TipoRedesSociales
+    public class TipoRedesSocial
     {
         [Key]
         public string IdTipoRedSocial { get; set; }

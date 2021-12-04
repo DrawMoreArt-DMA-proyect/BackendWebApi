@@ -12,6 +12,5 @@ namespace mx.edu.uttt.dma.webapi.DTOs
         [Required]
         [StringLength(100)]
         public string Contrasena { get; set; }
-        public string token { get; set; }
     }
 }

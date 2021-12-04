@@ -10,5 +10,10 @@ namespace mx.edu.uttt.dma.webapi
         {
         }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Generos> Generos { get; set; }
+        public DbSet<ElementoGuardado> ElementosGuardados { get; set; }
+        public DbSet<TipoRedesSocial> TipoRedesSociales { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<RedSocial> RedesSociales { get; set; }
     }
 }

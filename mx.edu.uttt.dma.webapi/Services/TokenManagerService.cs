@@ -2,6 +2,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,16 +15,34 @@ namespace mx.edu.uttt.dma.webapi.Services
     {
         private IConfiguration _config;
         private readonly IEncriptacionService _encriptacionService;
+        private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
 
         public TokenManagerService(IConfiguration config,
-            ApplicationDbContext context, IEncriptacionService encriptacionService)
+            ApplicationDbContext context, IEncriptacionService encriptacionService,
+            IMapper mapper)
         {
             _config = config;
+            _mapper = mapper;
             _encriptacionService = encriptacionService;
             _context = context;
         }
+        /*
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IEncriptacionService _encriptacionService;
+        private readonly ITokenManagerService _tokenManager;
 
+        public LoginController(ApplicationDbContext context,
+            IMapper mapper, IEncriptacionService encriptacionService,
+            ITokenManagerService tokenManager)
+        {
+            this._context = context;
+            this._mapper = mapper;
+            this._encriptacionService = encriptacionService;
+            this._tokenManager = tokenManager;
+        }
+         */
         public UsuarioLoginDTO AuthenticateUser(UsuarioLoginDTO login)
         {
             UsuarioLoginDTO user = null;
@@ -32,10 +52,11 @@ namespace mx.edu.uttt.dma.webapi.Services
             
             if (usuario != null)
             {
-                user = new UsuarioLoginDTO {
-                    IdUsuario = login.IdUsuario,
-                    UsuarioNombre = login.UsuarioNombre,
-                    token = login.token};
+                //var entidad = _mapper.Map<UsuarioLoginDTO>(usuario);
+                user = new UsuarioLoginDTO
+                {
+                    UsuarioNombre = login.UsuarioNombre
+                };
             }
             
             return user;

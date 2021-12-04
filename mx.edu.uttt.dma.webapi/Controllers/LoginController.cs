@@ -33,34 +33,63 @@ namespace mx.edu.uttt.dma.webapi.Controllers
         //Logeo Usuario
         [HttpPost]
         [Route("login")]
-        public ActionResult UserLogin(UsuarioLoginDTO model)
+        public async Task<ActionResult<UsuarioDTO>> UserLogin(UsuarioLoginDTO model)
         {
-            ActionResult response = Unauthorized();
-            var usuario =  _tokenManager.AuthenticateUser(model);
-            // var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
-            //var existe = await _context.Usuarios.AnyAsync(x =>
-            //x.UsuarioNombre == model.UsuarioNombre
-            //&& x.Contrasena == encriptacion);
-            if (usuario != null)
+            try
             {
-                //var tokenString = _tokenManager.GenerateJSONWebToken(model);
-                response = Ok(new { usuario, Message = "Success" });
+                ActionResult response = Unauthorized();
+                // var usuario = _tokenManager.AuthenticateUser(model);
+                var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
+
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync
+                    (x => x.UsuarioNombre == model.UsuarioNombre
+                     && x.Contrasena == encriptacion);
+
+                //var entidadDos = await _context.Usuarios.FirstOrDefaultAsync(x => x.IdUsuario == 3);
+                //_mapper.Map<UsuarioDTO>(entidadDos);
+
+                if (usuario != null)
+                {
+
+                    var tokenString = _tokenManager.GenerateJSONWebToken(model);
+                    response = Ok(new
+                    {
+                        IdUsuario = usuario.IdUsuario,
+                        UsuarioNombre = usuario.UsuarioNombre,
+                        Token = tokenString,
+                        Message = "Success"
+                    });
+                }
+                return response;
             }
-            return response;
+            catch (Exception ex)
+            {
+                return BadRequest("Algo a salido Mal"+ex);
+            }
         }
         //Registro de usuario
         [HttpPost]
         [Route("registro")]
         public ActionResult PostUser(UsuarioCreacionDTO model)
         {
-            var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
-            var entidad = _mapper.Map<Usuario>(model);
-            entidad.Contrasena = encriptacion;
-            // entidad.token = "Token Secreto";
-            _context.Add(entidad);
-            _context.SaveChangesAsync();
-            var usuarioDTO = _mapper.Map<UsuarioDTO>(entidad);
-            return new CreatedAtRouteResult("obtenerUsuario", new { id = usuarioDTO.IdUsuario }, usuarioDTO);
+            try
+            {
+                var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
+                var entidad = _mapper.Map<Usuario>(model);
+                
+                entidad.Contrasena = encriptacion;
+                //entidad.ImagenPerfil = "default.jpg";
+                //entidad.IdSexo = 1;
+                // entidad.token = "Token Secreto";
+                _context.Add(entidad);
+                _context.SaveChangesAsync();
+                var usuarioDTO = _mapper.Map<UsuarioDTO>(entidad);
+                return Ok("Registro Correcto");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Algo a salido Mal");
+            }
         }
         /*
         [Authorize]

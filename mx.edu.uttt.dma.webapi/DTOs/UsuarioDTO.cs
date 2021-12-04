@@ -13,8 +13,6 @@ namespace mx.edu.uttt.dma.webapi.DTOs
         [StringLength(50)]
         public string CorreoElectronico { get; set; }
         [StringLength(100)]
-        public string token { get; set; }
-        [StringLength(100)]
         public string Contrasena { get; set; }
         public string NombrePersona { get; set; }
         [StringLength(15)]
@@ -25,5 +23,9 @@ namespace mx.edu.uttt.dma.webapi.DTOs
         public string FechaDeNacimiento { get; set; }
         [StringLength(500)]
         public string Presentacion { get; set; }
+        [StringLength(500)]
+        public string ImagenPerfil { get; set; }
+        //Relacion de tabla
+        //public int IdSexo { get; set; }
     }
 }
