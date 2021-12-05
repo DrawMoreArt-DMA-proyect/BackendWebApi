@@ -17,9 +17,9 @@ namespace mx.edu.uttt.dma.webapi.Entidades
         public string Imagen { get; set; }
         //Relacion de Tabla
         public int IdGenero { get; set; }
-        public Generos Generos { get; set; }
+        //public Generos Generos { get; set; }
         //Relacion de Tabla
         public int IdUsuario { get; set; }
-        public Usuario Usuario { get; set; }
+        //public Usuario Usuario { get; set; }
     }
 }

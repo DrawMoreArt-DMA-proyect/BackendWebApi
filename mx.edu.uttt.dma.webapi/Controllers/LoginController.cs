@@ -33,12 +33,15 @@ namespace mx.edu.uttt.dma.webapi.Controllers
         //Logeo Usuario
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<UsuarioDTO>> UserLogin(UsuarioLoginDTO model)
+        public async Task<ActionResult> UserLogin(UsuarioLoginDTO model)
         {
             try
             {
                 ActionResult response = Unauthorized();
                 // var usuario = _tokenManager.AuthenticateUser(model);
+                if (_tokenManager.AuthenticateUser(model))
+                    return BadRequest("El usuario no existe");
+
                 var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
 
                 var usuario = await _context.Usuarios.FirstOrDefaultAsync
@@ -64,7 +67,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Algo a salido Mal"+ex);
+                return BadRequest("Algo a salido Mal");
             }
         }
         //Registro de usuario

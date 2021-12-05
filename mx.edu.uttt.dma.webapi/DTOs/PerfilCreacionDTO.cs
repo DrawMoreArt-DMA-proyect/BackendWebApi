@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
 
 namespace mx.edu.uttt.dma.webapi.DTOs
 {
@@ -23,7 +25,7 @@ namespace mx.edu.uttt.dma.webapi.DTOs
         public string FechaDeNacimiento { get; set; }
         [StringLength(500)]
         public string Presentacion { get; set; }
-        [StringLength(500)]
-        public string ImagenPerfil { get; set; }
+        [Required]
+        public IFormFile ImagenPerfil { get; set; }
     }
 }
