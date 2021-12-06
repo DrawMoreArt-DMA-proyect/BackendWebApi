@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace mx.edu.uttt.dma.webapi.Entidades
+namespace mx.edu.uttt.dma.webapi.DTOs
 {
-    public class Usuario
+    public class PerfilDTO
     {
         [Key]
         public int IdUsuario { get; set; }
@@ -28,7 +28,6 @@ namespace mx.edu.uttt.dma.webapi.Entidades
         public string Presentacion { get; set; }
         [StringLength(500)]
         public string ImagenPerfil { get; set; }
-        //Relacion de tabla
-        // public Sexo Sexo { get; set; }
+        public int IdSexo { get; set; }
     }
 }
