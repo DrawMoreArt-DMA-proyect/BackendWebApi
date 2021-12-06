@@ -37,14 +37,19 @@ namespace mx.edu.uttt.dma.webapi
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
                  .AllowAnyHeader());
             });
+            //AutoMapper
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
+            //Conexion con SQL server
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseSqlServer(Configuration.GetConnectionString("SomeeConexion"))
             );
+            // Servicios Varios
             services.AddTransient<IEncriptacionService, EncriptacionService>();
             services.AddTransient<ITokenManagerService, TokenManagerService>();
-
+            // Servicio Azure
+            services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosAzure>();
+            //JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -63,6 +68,7 @@ namespace mx.edu.uttt.dma.webapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //CORS
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {

@@ -39,8 +39,8 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             {
                 ActionResult response = Unauthorized();
                 // var usuario = _tokenManager.AuthenticateUser(model);
-                if (_tokenManager.AuthenticateUser(model))
-                    return BadRequest("El usuario no existe");
+                //if (_tokenManager.AuthenticateUser(model))
+                //    return BadRequest("El usuario no existe");
 
                 var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
 
@@ -81,6 +81,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
                 var entidad = _mapper.Map<Usuario>(model);
                 
                 entidad.Contrasena = encriptacion;
+                entidad.ImagenPerfil = "https://dmaproyectapi.blob.core.windows.net/perfilimagenes/defaultprofile.jpg";
                 //entidad.ImagenPerfil = "default.jpg";
                 //entidad.IdSexo = 1;
                 // entidad.token = "Token Secreto";

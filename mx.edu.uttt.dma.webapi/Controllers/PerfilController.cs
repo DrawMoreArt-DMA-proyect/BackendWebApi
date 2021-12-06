@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -21,12 +22,17 @@ namespace mx.edu.uttt.dma.webapi.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IEncriptacionService _encriptacionService;
+        private readonly IAlmacenadorArchivos _almacenadorArchivos;
+        private readonly string contenedor = "perfilimagenes";
+
         public PerfilController(ApplicationDbContext context,
-            IMapper mapper, IEncriptacionService encriptacionService)
+            IMapper mapper, IEncriptacionService encriptacionService,
+            IAlmacenadorArchivos almacenadorArchivos)
         {
-            this._context = context;
-            this._mapper = mapper;
-            this._encriptacionService = encriptacionService;
+            _context = context;
+            _mapper = mapper;
+            _encriptacionService = encriptacionService;
+            _almacenadorArchivos = almacenadorArchivos;
         }
         //Todos los perfiles
         [HttpGet]
@@ -62,26 +68,64 @@ namespace mx.edu.uttt.dma.webapi.Controllers
 
         //Actualizar todo el usuario
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> UpdatePerfil(int id,[FromForm]PerfilActualizarPerfil model)
+        public async Task<ActionResult> UpdatePerfil(int id,[FromForm]PerfilCreacionDTO model)
         {
+            var usuarioDB = await _context.Usuarios.FirstOrDefaultAsync(x => x.IdUsuario == id);
+            if (usuarioDB == null) { return NotFound(); }
+            //var existe = await _context.Posts.AnyAsync(x => x.IdPost == id);
+            //if (!existe)
+            //{
+            //    return NotFound();
+            //}
+            //var entidad = _mapper.Map<Post>(model);
+            //entidad.IdPost = id;
+            //_context.Entry(entidad).State = EntityState.Modified;
+
+            usuarioDB = _mapper.Map(model, usuarioDB);
+            if (model.ImagenPerfil != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.ImagenPerfil.CopyToAsync(memoryStream);
+                    var contenido = memoryStream.ToArray();
+                    var extencion = Path.GetExtension(model.ImagenPerfil.FileName);
+                    usuarioDB.ImagenPerfil = await _almacenadorArchivos.EditarArchivo(contenido, extencion, contenedor,
+                        usuarioDB.ImagenPerfil,
+                        model.ImagenPerfil.ContentType);
+                }
+            }
             var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
-            var entidad = _mapper.Map<Usuario>(model);
-            entidad.Contrasena = encriptacion;
-            entidad.IdUsuario = id;
-            _context.Entry(entidad).State = EntityState.Modified;
+            usuarioDB.Contrasena = encriptacion;
             await _context.SaveChangesAsync();
-            return Ok("Usuario Actualizado");
+            return Ok("Post Actualizado");
+            //var encriptacion = _encriptacionService.Encryptword(model.Contrasena);
+            //var entidad = _mapper.Map<Usuario>(model);
+            //entidad.Contrasena = encriptacion;
+            //entidad.IdUsuario = id;
+            //_context.Entry(entidad).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
+            //return Ok("Usuario Actualizado");
+
         }
 
         //Eliminar usuario
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var existe = await _context.Usuarios.AnyAsync(x => x.IdUsuario == id);
-            if (!existe)
+            var entidad = await _context.Usuarios.FirstOrDefaultAsync(z => z.IdUsuario == id);
+
+            if (!entidad.ImagenPerfil.Equals("https://dmaproyectapi.blob.core.windows.net/perfilimagenes/defaultprofile.jpg"))
+            {
+                await _almacenadorArchivos.BorrarArchivo(entidad.ImagenPerfil, contenedor);
+            }
+
+            if (entidad == null)
             {
                 return NotFound();
             }
+
+            _context.Entry(entidad).State = EntityState.Detached;
+
             _context.Remove(new Usuario() { IdUsuario = id });
             await _context.SaveChangesAsync();
 

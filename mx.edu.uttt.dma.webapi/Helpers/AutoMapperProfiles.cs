@@ -15,11 +15,14 @@ namespace mx.edu.uttt.dma.webapi.Helpers
             CreateMap<UsuarioLoginDTO, Usuario>();
             // Perfil
             CreateMap<Usuario, PerfilDTO>().ReverseMap();
-            CreateMap<PerfilActualizarPerfil, Usuario>();
+            CreateMap<PerfilActualizarPerfil, Usuario>()
+                .ForMember(x => x.ImagenPerfil, options => options.Ignore());
             CreateMap<PerfilCreacionDTO, Usuario>();
             // Posts
             CreateMap<Post, PostDTO>().ReverseMap();
-            CreateMap<PostCreacionDTO, Post>();
+            //CreateMap<PostCreacionDTO, Post>();
+            CreateMap<PostCreacionDTO, Post>()
+                .ForMember(x => x.Imagen, options => options.Ignore());
         }
     }
 }
