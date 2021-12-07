@@ -39,7 +39,10 @@ namespace mx.edu.uttt.dma.webapi
             });
             //AutoMapper
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers();
+            //
+            services.AddControllers()
+                .AddNewtonsoftJson();
+            
             //Conexion con SQL server
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseSqlServer(Configuration.GetConnectionString("SomeeConexion"))

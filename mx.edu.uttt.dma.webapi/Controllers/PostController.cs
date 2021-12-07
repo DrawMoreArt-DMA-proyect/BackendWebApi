@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using mx.edu.uttt.dma.webapi.DTOs;
 using mx.edu.uttt.dma.webapi.Entidades;
 using mx.edu.uttt.dma.webapi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mx.edu.uttt.dma.webapi.Controllers
 {
     [ApiController]
     //Ruta de acceso o url de acceso
     [Route("webapi/posts")]
-    //[Authorize]
+    [Authorize]
     public class PostController : ControllerBase
     {
         // Servicios a Implmentar
@@ -133,6 +134,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             await _context.SaveChangesAsync();
             return Ok("Post Actualizado");
         }
+            
         // Eliminar post
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeletePost(int id)

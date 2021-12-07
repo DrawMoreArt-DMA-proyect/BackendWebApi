@@ -18,6 +18,8 @@
     <None Remove="Validaciones\" />
     <None Remove="Ctrl\" />
     <None Remove="Azure.Storage.Blobs" />
+    <None Remove="Microsoft.AspNetCore.JsonPatch" />
+    <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entidades\" />
@@ -38,6 +40,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.21" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.21" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />

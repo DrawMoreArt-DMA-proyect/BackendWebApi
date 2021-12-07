@@ -95,6 +95,8 @@ namespace mx.edu.uttt.dma.webapi.Controllers
                 return BadRequest("Algo a salido Mal");
             }
         }
+        // Recuperar Contrasena
+
         /*
         [Authorize]
         [HttpPost("{id:int}")]

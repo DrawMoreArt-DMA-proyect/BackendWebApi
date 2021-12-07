@@ -16,7 +16,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
     [ApiController]
     //Ruta de acceso o url de acceso
     [Route("webapi/perfil")]
-    //[Authorize]
+    [Authorize]
     public class PerfilController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
