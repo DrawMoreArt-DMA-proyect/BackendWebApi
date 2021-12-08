@@ -7,7 +7,6 @@ namespace mx.edu.uttt.dma.webapi.DTOs
 {
     public class PerfilCreacionDTO
     {
-        public int IdUsuario { get; set; }
         [Required]
         [StringLength(20)]
         public string UsuarioNombre { get; set; }

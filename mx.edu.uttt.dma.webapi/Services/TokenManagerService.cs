@@ -55,7 +55,7 @@ namespace mx.edu.uttt.dma.webapi.Services
             var token = new JwtSecurityToken(issuer: null,
             audience: null,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(120),
+            expires: DateTime.Now.AddDays(1),
             signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
