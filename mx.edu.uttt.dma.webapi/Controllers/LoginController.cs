@@ -38,7 +38,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             try
             {
                 ActionResult response = Unauthorized();
-                // var usuario = _tokenManager.AuthenticateUser(model);
+                //var usuario = _tokenManager.AuthenticateUser(model);
                 //if (_tokenManager.AuthenticateUser(model))
                 //    return BadRequest("El usuario no existe");
 
@@ -53,15 +53,9 @@ namespace mx.edu.uttt.dma.webapi.Controllers
 
                 if (usuario != null)
                 {
-
+                    model.IdUsuario = usuario.IdUsuario;
                     var tokenString = _tokenManager.GenerateJSONWebToken(model);
-                    response = Ok(new
-                    {
-                        IdUsuario = usuario.IdUsuario,
-                        UsuarioNombre = usuario.UsuarioNombre,
-                        Token = tokenString,
-                        Message = "Success"
-                    });
+                    response = Ok( tokenString );
                 }
                 return response;
             }

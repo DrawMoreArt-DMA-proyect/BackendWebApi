@@ -9,6 +9,7 @@ using mx.edu.uttt.dma.webapi.DTOs;
 using mx.edu.uttt.dma.webapi.Entidades;
 using mx.edu.uttt.dma.webapi.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace mx.edu.uttt.dma.webapi.Controllers
 {
@@ -44,9 +45,9 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             var dtos = _mapper.Map<List<PostDTO>>(entidades);
             return dtos;
         }
-        // Post por Id
+        //Post por Id
         [HttpGet("{id:int}", Name = "obtenerPost")]
-        public async Task<ActionResult<PostDTO>> GetUserById(int id)
+        public async Task<ActionResult<PostUnoDTO>> GetPostById(int id)
         {
             try
             {
@@ -57,26 +58,49 @@ namespace mx.edu.uttt.dma.webapi.Controllers
                     return NotFound();
                 }
 
-                return _mapper.Map<PostDTO>(entidad);
+                return _mapper.Map<PostUnoDTO>(entidad);
             }
             catch (Exception ex)
             {
                 return BadRequest("Algo salio mal");
             }
         }
+
+        //[HttpGet("{id:int}", Name = "obtenerPostUsuario")]
+        //public async Task<ActionResult<List<PostDTO>>> GetPostByUser(int id)
+        //{
+        //    try
+        //    {
+        //        //var entidades = await _context.Posts.AnyAsync(x => x.IdUsuario == id);
+
+        //        //var entidad = await _context.Posts.AnyAsync(x => x.IdUsuario == id);
+        //        var entidades = await _context.Posts.Where(x => x.IdUsuario == id).ToListAsync();
+        //        if (entidades == null)
+        //        {
+        //             return NotFound();
+        //        }
+        //        return _mapper.Map<List<PostDTO>>(entidades);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest("Algo salio mal");
+        //    }
+        //}
+         
         // Post por titulo
-        [HttpGet("{titulo}", Name = "obtenerNombrePost")]
-        public async Task<ActionResult<PostDTO>> GetUser(string titulo)
-        {
-            var entidad = await _context.Posts.FirstOrDefaultAsync(x => x.Titulo == titulo);
+        //[HttpGet("{titulo}", Name = "obtenerNombrePost")]
+        //public async Task<ActionResult<PostDTO>> GetUser(string titulo)
+        //{
+        //    var entidad = await _context.Posts.FirstOrDefaultAsync(x => x.Titulo == titulo);
 
-            if (entidad == null)
-            {
-                return NotFound();
-            }
+        //    if (entidad == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return _mapper.Map<PostDTO>(entidad);
-        }
+        //    return _mapper.Map<PostDTO>(entidad);
+        //}
         // Postear Nuevo Dibujo
         [HttpPost]
         public async Task<ActionResult> PostPosts([FromForm]PostCreacionDTO model)

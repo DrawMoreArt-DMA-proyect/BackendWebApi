@@ -121,8 +121,7 @@ namespace mx.edu.uttt.dma.webapi.Controllers
 
             return Ok("Usuario Eliminado");
         }
-        // Agregar nuevo usuario (Registro)
-        /*
+
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult> UserLogin(UsuarioLoginDTO model)
@@ -136,6 +135,5 @@ namespace mx.edu.uttt.dma.webapi.Controllers
             }
             return Ok("El usuario no existe");
         }
-        */
     }
 }

@@ -45,11 +45,15 @@ namespace mx.edu.uttt.dma.webapi.Services
         // Generador del Token de autenticacion
         public string GenerateJSONWebToken(UsuarioLoginDTO model)
         {
+            //var usuario = await _context.Usuarios.FirstOrDefaultAsync
+            //    (x => x.UsuarioNombre == model.UsuarioNombre);
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+            
             var claims = new[] {
             new Claim(JwtRegisteredClaimNames.Sub, model.UsuarioNombre),
+               new Claim(JwtRegisteredClaimNames.Iss, model.IdUsuario.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var token = new JwtSecurityToken(issuer: null,

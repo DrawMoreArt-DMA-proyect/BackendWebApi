@@ -5,7 +5,7 @@ namespace mx.edu.uttt.dma.webapi.DTOs
 {
     public class PostDTO
     {
-        [Key]
+      
         public int IdPost { get; set; }
         [Required]
         [StringLength(50)]
@@ -13,7 +13,7 @@ namespace mx.edu.uttt.dma.webapi.DTOs
         [Required]
         [StringLength(500)]
         public string Descripcion { get; set; }
-        public string MeGusta { get; set; }
+        //public string MeGusta { get; set; }
         public string Imagen { get; set; }
         //Relacion de Tabla
         public int IdGenero { get; set; }

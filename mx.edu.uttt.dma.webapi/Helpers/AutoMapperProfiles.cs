@@ -20,9 +20,16 @@ namespace mx.edu.uttt.dma.webapi.Helpers
             CreateMap<PerfilCreacionDTO, Usuario>();
             // Posts
             CreateMap<Post, PostDTO>().ReverseMap();
+            CreateMap<Post, PostUnoDTO>().ReverseMap();
             //CreateMap<PostCreacionDTO, Post>();
             CreateMap<PostCreacionDTO, Post>()
                 .ForMember(x => x.Imagen, options => options.Ignore());
+            //Selects
+            CreateMap<SelectDTO, Generos>().ReverseMap();
+            CreateMap<Generos, SelectDTO>();
+
+            CreateMap<RedSocialDTO, RedSocial>().ReverseMap();
+            CreateMap<RedSocial, RedSocialDTO>();
         }
     }
 }
